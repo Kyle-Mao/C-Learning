@@ -42,3 +42,11 @@ A simple stopwatch. The second program displays more specific time, but it shows
 A program to play sounds whose pitch are equal to those on the piano.
 
 一个能播放音阶的小程序。
+
+### xy2polar.c
+
+A small calculator to convert rectangular coordinate system to polar coordinate system. Actually it is meant to solve a PTA puzzle.
+
+一个把直角坐标转换为极坐标的计算器。实际上是一个PTA平台的练习题。
+
+![Screenshot](https://img.kylemao.link/file/aafd8bc8e7fa27ebd795f.png)
