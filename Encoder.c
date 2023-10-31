@@ -1,5 +1,5 @@
-// C Program by Kyle. 2023102 14:31
-// v1.4 解决功能选择输入无效值时循环报错问题    解决16进制输出第一位是0的问题
+// C Program by Kyle. 20231026 16:55
+// v2 提高加密安全性
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
@@ -8,7 +8,7 @@
 
 int main()
 {
-    int choice, raw, pw, len;
+    int choice, raw, pw, pw2, len, skip;
     char str[LENGTH] = {};
     printf("1-Encode\n");
     printf("2-Decode\n");
@@ -41,15 +41,23 @@ encode:
 
     len = strlen(str);
     pw = raw % 128;
+    pw2 = (raw + 1000) / 7 % 128;
+    skip = raw % 3+2;
 
     char encode[LENGTH] = {};
     printf("\nPlease copy your result: \n");
-    for (int i = 0; i < len; i++)
+    for (int i = 0; i < len; i++)      //第一次加密
     {
-
         encode[i] = str[i] ^ pw;
-        // printf("%x", encode[i]);
+    }
 
+    for (int j = 0; j < len; j += skip)    //第二次加密
+    {
+        encode[j] = encode[j] ^ pw2;
+    }
+
+    for (int i = 0; i < len; i++)   //输出：注意第一位是0的情况
+    {
         if (encode[i] < 16)
         {
             printf("%d", 0);
@@ -68,6 +76,7 @@ encode:
             printf("%x", encode[i]);
         }
     }
+
     printf("\n");
     scanf("%d", choice);
     exit(0);
@@ -85,6 +94,8 @@ decode:
 
     len = strlen(str2);
     pw = raw % 128;
+    pw2 = (raw + 1000) / 7 % 128;
+    skip = raw % 3+2;
 
     printf("\nPlease copy your result: \n");
     for (int i = 0; i < len / 2; i++)
@@ -100,8 +111,15 @@ decode:
         hex_value = strtol(str, &endptr, 16);
 
         pretext[i] = hex_value;
+
         decode[i] = hex_value ^ pw;
     }
+
+    for (int j = 0; j < len; j += skip)
+    {
+        decode[j] = decode[j] ^ pw2;
+    }
+
     printf("%s", decode);
     printf("\n");
     scanf("%d", choice);
