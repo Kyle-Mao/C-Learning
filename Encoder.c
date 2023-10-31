@@ -1,19 +1,14 @@
-// C Program by Kyle. 20231025 8:47
-// v1.2 中文支持
+// C Program by Kyle. 20231024 10:04
+// v1.1 允许空格输入
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
 #include <string.h>
-#include <locale.h>
-#define Length 15
 
 int main()
 {
-    setlocale(LC_ALL, "");
-
     int choice, raw, pw, len;
-    wchar_t str[Length] = {};
-    // system("chcp 65001");
+    char str[1000] = {};
     printf("1-Encode\n");
     printf("2-Decode\n");
     printf("Type your choice: ");
@@ -37,15 +32,15 @@ encode:
     printf("Input your text to be encoded:\n");
     fflush(stdin);
     // scanf("%s", &str);
-    fgetws(str, Length, stdin);
+    fgets(str, 1000, stdin);
     // scanf("%[^\n]",&str);
     printf("\nInput your password: \n");
     scanf("%d", &raw);
 
-    len = wcslen(str)*2;
-    pw = raw % 255;
+    len = strlen(str);
+    pw = raw % 128;
 
-    wchar_t encode[Length] = {};
+    char encode[1000] = {};
     // printf("%s", str);
     // printf("%d", pw);
     printf("\nPlease copy your result: \n");
@@ -57,23 +52,22 @@ encode:
         printf("%x", encode[i]);
     }
     printf("\n");
-
-    // scanf("%d", choice);
-    // exit(0);
+    scanf("%d", choice);
+    exit(0);
 
 decode:
 
-    char str2[Length][2] = {};
-    char format[Length][3] = {};
-    // wchar_t pretext[Length] = {};
-    wchar_t decode[Length] = {};
+    char str2[1000][2] = {};
+    char format[1000][3] = {};
+    char pretext[1000] = {};
+    char decode[1000] = {};
     printf("Input your text to be decoded:\n");
     scanf("%s", &str2);
     printf("\nInput your password: \n");
     scanf("%d", &raw);
 
-    len = wcslen(str2)*2;
-    pw = raw % 255;
+    len = strlen(str2);
+    pw = raw % 128;
 
     printf("\nPlease copy your result: \n");
     for (int i = 0; i < len / 2; i++)
@@ -101,10 +95,10 @@ decode:
         // }
 
         // printf("十六进制整数：%ld\n", hex_value);
-        // pretext[i] = hex_value;
+        pretext[i] = hex_value;
         decode[i] = hex_value ^ pw;
     }
-    wprintf(L"%s", decode);
+    printf("%s", decode);
     printf("\n");
     scanf("%d", choice);
     exit(0);
