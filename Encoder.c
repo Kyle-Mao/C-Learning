@@ -4,11 +4,13 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <string.h>
+#include <locale.h>
+#define Length 15
 
 int main()
 {
     int choice, raw, pw, len;
-    char str[1000] = {};
+    char str0[Length] = {};
     printf("1-Encode\n");
     printf("2-Decode\n");
     printf("Type your choice: ");
@@ -32,22 +34,22 @@ encode:
     printf("Input your text to be encoded:\n");
     fflush(stdin);
     // scanf("%s", &str);
-    fgets(str, 1000, stdin);
-    // scanf("%[^\n]",&str);
+    fgets(str0, Length, stdin);
+    // scanf("%[^\n]",&str0);
     printf("\nInput your password: \n");
     scanf("%d", &raw);
 
-    len = strlen(str);
+    len = strlen(str0);
     pw = raw % 255;
 
-    char encode[1000] = {};
-    // printf("%s", str);
+    char encode[Length] = {};
+    // printf("%s", str0);
     // printf("%d", pw);
     printf("\nPlease copy your result: \n");
     for (int i = 0; i < len; i++)
     {
-        // printf("%x\n", str[i]);
-        encode[i] = str[i] ^ pw;
+        // printf("%x\n", str0[i]);
+        encode[i] = str0[i] ^ pw;
         // printf("%x\n", encode[i]);
         printf("%x", encode[i]);
     }
@@ -57,10 +59,10 @@ encode:
 
 decode:
 
-    char str2[1000][2] = {};
-    char format[1000][3] = {};
-    char pretext[1000] = {};
-    char decode[1000] = {};
+    char str2[Length][2] = {};
+    char format[Length][3] = {};
+    char pretext[Length] = {};
+    char decode[Length] = {};
     printf("Input your text to be decoded:\n");
     scanf("%s", &str2);
     printf("\nInput your password: \n");
