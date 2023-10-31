@@ -1,11 +1,11 @@
 // C Program by Kyle. 20231024 10:04
-//v1 初始版本
+// v1.1 允许空格输入
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
 #include <string.h>
 
-void main()
+int main()
 {
     int choice, raw, pw, len;
     char str[1000] = {};
@@ -30,7 +30,10 @@ option:
 
 encode:
     printf("Input your text to be encoded:\n");
-    scanf("%s", &str);
+    fflush(stdin);
+    // scanf("%s", &str);
+    fgets(str, 1000, stdin);
+    // scanf("%[^\n]",&str);
     printf("\nInput your password: \n");
     scanf("%d", &raw);
 
@@ -49,6 +52,7 @@ encode:
         printf("%x", encode[i]);
     }
     printf("\n");
+    scanf("%d", choice);
     exit(0);
 
 decode:
@@ -93,8 +97,9 @@ decode:
         // printf("十六进制整数：%ld\n", hex_value);
         pretext[i] = hex_value;
         decode[i] = hex_value ^ pw;
-        printf("%c", decode[i]);
     }
+    printf("%s", decode);
     printf("\n");
+    scanf("%d", choice);
     exit(0);
 }
