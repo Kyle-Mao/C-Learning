@@ -1,15 +1,17 @@
-// C Program by Kyle. 20231026 16:55
-// v2 提高加密安全性
+// C Program by Kyle. 20231026 18:07
+// v3 滚动加密算法，大大提高安全性！
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
 #include <string.h>
 #define LENGTH 1000
+#define PLENGTH 50
 
 int main()
 {
-    int choice, raw, pw, pw2, len, skip;
+    int choice, len, plen, i = 0, j = 0;
     char str[LENGTH] = {};
+    char pw[PLENGTH] = {};
     printf("1-Encode\n");
     printf("2-Decode\n");
     printf("Type your choice: ");
@@ -35,29 +37,22 @@ encode:
     fflush(stdin);
     // scanf("%s", &str);
     fgets(str, LENGTH, stdin);
+
     // scanf("%[^\n]",&str);
     printf("\nInput your password: \n");
-    scanf("%d", &raw);
-
+    fgets(pw, PLENGTH, stdin);
     len = strlen(str);
-    pw = raw % 128;
-    pw2 = (raw + 1000) / 7 % 128;
-    skip = raw % 3+2;
+    plen = strlen(pw) - 1;
+    // pw = raw % 128;
 
     char encode[LENGTH] = {};
     printf("\nPlease copy your result: \n");
-    for (int i = 0; i < len; i++)      //第一次加密
-    {
-        encode[i] = str[i] ^ pw;
-    }
 
-    for (int j = 0; j < len; j += skip)    //第二次加密
+    for (int i = 0; i < len; i++)
     {
-        encode[j] = encode[j] ^ pw2;
-    }
+        encode[i] = str[i] ^ pw[j];
+        // printf("%x", encode[i]);
 
-    for (int i = 0; i < len; i++)   //输出：注意第一位是0的情况
-    {
         if (encode[i] < 16)
         {
             printf("%d", 0);
@@ -75,28 +70,31 @@ encode:
         {
             printf("%x", encode[i]);
         }
-    }
 
+        j++;
+        if (j == plen)
+        {
+            j = 0;
+        }
+    }
     printf("\n");
-    scanf("%d", choice);
+    scanf("%d", &choice);
     exit(0);
 
 decode:
 
     char str2[LENGTH][2] = {};
     char format[LENGTH][3] = {};
-    char pretext[LENGTH] = {};
     char decode[LENGTH] = {};
     printf("Input your text to be decoded:\n");
     scanf("%s", &str2);
     printf("\nInput your password: \n");
-    scanf("%d", &raw);
+
+    fflush(stdin);
+    fgets(pw, PLENGTH, stdin);
 
     len = strlen(str2);
-    pw = raw % 128;
-    pw2 = (raw + 1000) / 7 % 128;
-    skip = raw % 3+2;
-
+    plen = strlen(pw) - 1;
     printf("\nPlease copy your result: \n");
     for (int i = 0; i < len / 2; i++)
     {
@@ -110,18 +108,15 @@ decode:
         // 使用 strtol 函数将字符串转换为整数，基数为 16（十六进制）
         hex_value = strtol(str, &endptr, 16);
 
-        pretext[i] = hex_value;
-
-        decode[i] = hex_value ^ pw;
+        decode[i] = hex_value ^ pw[j];
+        j++;
+        if (j == plen)
+        {
+            j = 0;
+        }
     }
-
-    for (int j = 0; j < len; j += skip)
-    {
-        decode[j] = decode[j] ^ pw2;
-    }
-
     printf("%s", decode);
     printf("\n");
-    scanf("%d", choice);
+    scanf("%d", &choice);
     exit(0);
 }
