@@ -15,6 +15,7 @@ int main()
     printf("1-Encode\n");
     printf("2-Decode\n");
     printf("Type your choice: ");
+    
 option:
     scanf("%d", &choice);
 
@@ -50,7 +51,7 @@ encode:
 
     for (int i = 0; i < len; i++)
     {
-        encode[i] = str[i] ^ pw[j];
+        encode[i] = str[i] ^ (128-pw[j]);
         // printf("%x", encode[i]);
 
         if (encode[i] < 16)
@@ -108,7 +109,7 @@ decode:
         // 使用 strtol 函数将字符串转换为整数，基数为 16（十六进制）
         hex_value = strtol(str, &endptr, 16);
 
-        decode[i] = hex_value ^ pw[j];
+        decode[i] = hex_value ^ (128-pw[j]);
         j++;
         if (j == plen)
         {
