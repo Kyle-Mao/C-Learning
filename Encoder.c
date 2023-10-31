@@ -1,10 +1,10 @@
-// C Program by Kyle. 20231026 18:07
-// v3 滚动加密算法，大大提高安全性！
+// C Program by Kyle. 20231027 16:04
+// v4 支持中文 更新16进制输出两位的算法
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
 #include <string.h>
-#define LENGTH 1000
+#define LENGTH 3000
 #define PLENGTH 50
 
 int main()
@@ -52,26 +52,8 @@ encode:
     for (int i = 0; i < len; i++)
     {
         encode[i] = str[i] ^ (128-pw[j]);
-        // printf("%x", encode[i]);
 
-        if (encode[i] < 16)
-        {
-            printf("%d", 0);
-
-            if (encode[i] == 0)
-            {
-                printf("%d", 0);
-            }
-            else
-            {
-                printf("%x", encode[i]);
-            }
-        }
-        else
-        {
-            printf("%x", encode[i]);
-        }
-
+            printf("%02x", encode[i]&0xff);
         j++;
         if (j == plen)
         {
