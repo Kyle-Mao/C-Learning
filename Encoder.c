@@ -1,5 +1,5 @@
-// C Program by Kyle. 20231024 10:04
-// v1.1 允许空格输入
+// C Program by Kyle. 20231025 8:47
+// v1.2 中文支持
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
@@ -9,8 +9,11 @@
 
 int main()
 {
+    setlocale(LC_ALL, "");
+
     int choice, raw, pw, len;
-    char str0[Length] = {};
+    wchar_t str[Length] = {};
+    // system("chcp 65001");
     printf("1-Encode\n");
     printf("2-Decode\n");
     printf("Type your choice: ");
@@ -34,41 +37,42 @@ encode:
     printf("Input your text to be encoded:\n");
     fflush(stdin);
     // scanf("%s", &str);
-    fgets(str0, Length, stdin);
-    // scanf("%[^\n]",&str0);
+    fgetws(str, Length, stdin);
+    // scanf("%[^\n]",&str);
     printf("\nInput your password: \n");
     scanf("%d", &raw);
 
-    len = strlen(str0);
+    len = wcslen(str)*2;
     pw = raw % 255;
 
-    char encode[Length] = {};
-    // printf("%s", str0);
+    wchar_t encode[Length] = {};
+    // printf("%s", str);
     // printf("%d", pw);
     printf("\nPlease copy your result: \n");
     for (int i = 0; i < len; i++)
     {
-        // printf("%x\n", str0[i]);
-        encode[i] = str0[i] ^ pw;
+        // printf("%x\n", str[i]);
+        encode[i] = str[i] ^ pw;
         // printf("%x\n", encode[i]);
         printf("%x", encode[i]);
     }
     printf("\n");
-    scanf("%d", choice);
-    exit(0);
+
+    // scanf("%d", choice);
+    // exit(0);
 
 decode:
 
     char str2[Length][2] = {};
     char format[Length][3] = {};
-    char pretext[Length] = {};
-    char decode[Length] = {};
+    // wchar_t pretext[Length] = {};
+    wchar_t decode[Length] = {};
     printf("Input your text to be decoded:\n");
     scanf("%s", &str2);
     printf("\nInput your password: \n");
     scanf("%d", &raw);
 
-    len = strlen(str2);
+    len = wcslen(str2)*2;
     pw = raw % 255;
 
     printf("\nPlease copy your result: \n");
@@ -97,10 +101,10 @@ decode:
         // }
 
         // printf("十六进制整数：%ld\n", hex_value);
-        pretext[i] = hex_value;
+        // pretext[i] = hex_value;
         decode[i] = hex_value ^ pw;
     }
-    printf("%s", decode);
+    wprintf(L"%s", decode);
     printf("\n");
     scanf("%d", choice);
     exit(0);
