@@ -50,9 +50,9 @@ A small calculator to convert rectangular coordinate system to polar coordinate 
 
 ### Encoder v4_1.c
 
-==My greatest project up to now!==
+**My greatest project up to now!**
 
-==目前为止最大的项目！==
+**目前为止最大的项目！**
 
 Encrypt text using bitwise XOR algorithm. ASCII of clear text and password characters match one by one with scrolling calculation.
 
