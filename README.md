@@ -48,7 +48,7 @@ A small calculator to convert rectangular coordinate system to polar coordinate 
 
 ![Screenshot](https://img.kylemao.link/file/aafd8bc8e7fa27ebd795f.png)
 
-### Encoder v4_1.c
+### Encoder.c
 
 **My greatest project up to now!**
 
